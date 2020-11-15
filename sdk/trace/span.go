@@ -349,7 +349,6 @@ func startSpanInternal(tr *tracer, name string, parent apitrace.SpanContext, rem
 		span.spanContext.SpanID = cfg.IDGenerator.NewSpanID()
 	}
 
-	span.spanContext.SpanID = cfg.IDGenerator.NewSpanID()
 	data := samplingData{
 		noParent:     noParent,
 		remoteParent: remoteParent,
