@@ -158,6 +158,8 @@ type SpanConfig struct {
 	NewRoot bool
 	// SpanKind is the role a Span has in a trace.
 	SpanKind SpanKind
+
+	GetIDsFunc func() (traceId ID, spanId SpanID)
 }
 
 // NewSpanConfig applies all the options to a returned SpanConfig.
@@ -242,6 +244,15 @@ func (o spanKindSpanOption) Apply(c *SpanConfig) { c.SpanKind = SpanKind(o) }
 // WithSpanKind sets the SpanKind of a Span.
 func WithSpanKind(kind SpanKind) SpanOption {
 	return spanKindSpanOption(kind)
+}
+
+type getIDsFuncOption func() (traceId ID, spanId SpanID)
+
+func (o getIDsFuncOption) Apply(c *SpanConfig) { c.GetIDsFunc = o }
+
+// WithGetIDsFuncOption uses the returned id's instead of generated ones
+func WithGetIDsFuncOption(genFunc func() (traceId ID, spanId SpanID)) SpanOption {
+	return getIDsFuncOption(genFunc)
 }
 
 // Link is used to establish relationship between two spans within the same Trace or
