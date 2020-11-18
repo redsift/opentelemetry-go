@@ -18,12 +18,10 @@ import (
 	crand "crypto/rand"
 	"encoding/binary"
 	"math/rand"
-
-	"go.opentelemetry.io/otel/sdk/trace/internal"
 )
 
-func defIDGenerator() internal.IDGenerator {
-	gen := &defaultIDGenerator{}
+func DefIDGenerator() IDGenerator {
+	gen := &DefaultIDGenerator{}
 	var rngSeed int64
 	_ = binary.Read(crand.Reader, binary.LittleEndian, &rngSeed)
 	gen.randSource = rand.New(rand.NewSource(rngSeed))

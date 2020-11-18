@@ -9,8 +9,8 @@ replace (
 )
 
 require (
-	go.opentelemetry.io/otel v0.13.2-beta
+	go.opentelemetry.io/otel v0.13.3-beta
 	go.opentelemetry.io/otel/exporters/otlp v0.13.0
-	go.opentelemetry.io/otel/sdk v0.13.2-beta
+	go.opentelemetry.io/otel/sdk v0.13.3-beta
 	google.golang.org/grpc v1.32.0
 )
