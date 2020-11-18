@@ -16,16 +16,12 @@ package trace
 
 import (
 	"go.opentelemetry.io/otel/sdk/resource"
-	"go.opentelemetry.io/otel/sdk/trace/internal"
 )
 
 // Config represents the global tracing configuration.
 type Config struct {
 	// DefaultSampler is the default sampler used when creating new spans.
 	DefaultSampler Sampler
-
-	// IDGenerator is for internal use only.
-	IDGenerator internal.IDGenerator
 
 	// MaxEventsPerSpan is max number of message events per span
 	MaxEventsPerSpan int

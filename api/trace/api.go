@@ -22,6 +22,14 @@ import (
 	"go.opentelemetry.io/otel/label"
 )
 
+var defaultIDGenerator = DefIDGenerator()
+
+// IDGenerator allows custom generators for TraceId and SpanId.
+type IDGenerator interface {
+	NewTraceID() ID
+	NewSpanID() SpanID
+}
+
 // TracerProvider provides access to instrumentation Tracers.
 type TracerProvider interface {
 	// Tracer creates an implementation of the Tracer interface.
@@ -158,6 +166,8 @@ type SpanConfig struct {
 	NewRoot bool
 	// SpanKind is the role a Span has in a trace.
 	SpanKind SpanKind
+
+	IDGenerator IDGenerator
 }
 
 // NewSpanConfig applies all the options to a returned SpanConfig.
@@ -171,6 +181,11 @@ func NewSpanConfig(opts ...SpanOption) *SpanConfig {
 	for _, option := range opts {
 		option.Apply(c)
 	}
+
+	if c.IDGenerator == nil {
+		c.IDGenerator = defaultIDGenerator
+	}
+
 	return c
 }
 
@@ -311,4 +326,14 @@ func (sk SpanKind) String() string {
 	default:
 		return "unspecified"
 	}
+}
+
+type newIDGeneratorOption struct {
+	IDGenerator
+}
+
+func (o newIDGeneratorOption) Apply(c *SpanConfig) { c.IDGenerator = o.IDGenerator }
+
+func WithIDGenerator(generator IDGenerator) SpanOption {
+	return newIDGeneratorOption{generator}
 }

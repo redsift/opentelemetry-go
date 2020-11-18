@@ -328,10 +328,10 @@ func startSpanInternal(tr *tracer, name string, parent apitrace.SpanContext, rem
 	cfg := tr.provider.config.Load().(*Config)
 
 	if parent == apitrace.EmptySpanContext() {
-		span.spanContext.TraceID = cfg.IDGenerator.NewTraceID()
+		span.spanContext.TraceID = o.IDGenerator.NewTraceID()
 		noParent = true
 	}
-	span.spanContext.SpanID = cfg.IDGenerator.NewSpanID()
+	span.spanContext.SpanID = o.IDGenerator.NewSpanID()
 	data := samplingData{
 		noParent:     noParent,
 		remoteParent: remoteParent,
